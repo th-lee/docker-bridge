@@ -38,12 +38,13 @@ Container : 10.0.1.32/27 (10.0.1.33~10.0.1.62)
 <br>
 # Environment
 
-+ Host OS : Ubunutu 14.04LTS
-+ Host IP : 10.0.1.35/32
-+ Docker-Engine Ver : 1.9.0
-+ Container IP Range (Max #30) : 10.0.1.32/27 (10.0.1.32~10.0.1.63)
+* Host OS : Ubunutu 14.04LTS
+* Host IP : 10.0.1.35/32
+* Docker-Engine Ver : 1.9.0
+* * Container IP Range (Max #30) : 10.0.1.32/27 (10.0.1.32~10.0.1.63)
+* 주 : container의 gateway는 Host(10.0.1.35/32)가 됩니다.
+* 
 
-+ container의 gateway는 Host(10.0.1.35/32)가 됩니다.
 
 <br>
 <br>
@@ -117,12 +118,8 @@ root@ubuntu:~# iptables -t nat -F POSTROUTING
 <br>
 ## 5. Configure Docker
 docker의 아이피 대역은 외부 네트워크와 동일한 layer에 위치하고 기존 Subnet 수준의 layer로 subnetting 영역을 설정합니다.
-
 container에 할당한 아이피 대역을 지정하는 것은 매우 중요한 과정입니다.
-
-사용할 아이피 대역을 정의하지 않으면 
-
-container에 할당되는  아이피가 기존 사용 중인 아이피와 충돌이 발생할수 있어 별도의 subnetting으로 기존 시스템과의 충돌을 피해야 합니다.
+사용할 아이피 대역을 정의하지 않으면 container에 할당되는  아이피가 기존 사용 중인 아이피와 충돌이 발생할수 있어 별도의 subnetting으로 기존 시스템과의 충돌을 피해야 합니다.
 
 ```
 root@ubuntu:~# echo 'DOCKER_OPTS="-b=br0 --fixed-cidr=10.0.1.32/27"' >> /etc/default/docker
