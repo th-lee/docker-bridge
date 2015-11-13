@@ -1,7 +1,8 @@
 # docker-bridge
 Connect a docker container to a local network
 
-
+<br>
+<br>
 # Intro
 
 도커 컨테이너(container)와 물리적 서버(docker-engine)를 동일 네트워크 Layer에 구성 함으로 
@@ -14,7 +15,8 @@ container와 docker-engine간 port-mapping을 하지 않고
 container의 local network 설정은 몇가지 방법이 있습니다.
 각 방법마다의 장단점이 있지만 본 자료는 제일 간단한 방법을 소개합니다.
 
-
+<br>
+<br>
 # Network Topology
 Laptop(Windows) : 10.0.1.23
 VM Server(Ubuntu) : 10.0.1.58
@@ -25,35 +27,38 @@ Container : 10.0.1.32/27 (10.0.1.33~10.0.1.62)
 
 ![Network Toplogy2](Topology02.jpg)
 
-
+<br>
+<br>
 # Traffic Flow
 데이터 흐름은 Container의 G/W는 VM이 되며 Container의 외부 트래픽은 모두 VM을 통해 외부로 전달됩니다.
 
 ![Traffic Flow](TrafficeFlow.jpg)
 
-
+<br>
+<br>
 # Environment
 
 + Host OS : Ubunutu 14.04LTS
 + Host IP : 10.0.1.35/32
 + Docker-Engine Ver : 1.9.0
 + Container IP Range (Max #30) : 10.0.1.32/27 (10.0.1.32~10.0.1.63)
-+ 
 
 + container의 gateway는 Host(10.0.1.35/32)가 됩니다.
-+ 
 
-
-# Installation
-
-## 1. Docker Engine
+<br>
+<br>
+# Implement 
+<br>
+<br>
+## 1. Install Docker Engine
 
 ```
 root@ubuntu:~# curl -sSL https://get.docker.com/ | sh
 ```
 
-
-## 2. Bridge Install
+<br>
+<br>
+## 2. Install Linxu Bridge
 
 Docker 설치 후 생성된 브릿지(docker0)를 리눅스 브릿지(br0)로 대체하기 위해 패키지를 설치합니다. 
 
@@ -61,7 +66,8 @@ Docker 설치 후 생성된 브릿지(docker0)를 리눅스 브릿지(br0)로 �
 root@ubuntu:~# apt-get install bridge-utils
 ```
 
-
+<br>
+<br>
 ## 3. Add Custom Bridge
 
 ```
@@ -86,7 +92,8 @@ bridge_maxage 12
 bridge_stp off
 ```
 
-
+<br>
+<br>
 ## 4. Del docker0 Bridge
 
 ### 4.1 stop docker
@@ -106,17 +113,23 @@ root@ubuntu:~# iptables -t nat -L -n
 root@ubuntu:~# iptables -t nat -F POSTROUTING
 ```
 
-
+<br>
+<br>
 ## 5. Configure Docker
 docker의 아이피 대역은 외부 네트워크와 동일한 layer에 위치하고 기존 Subnet 수준의 layer로 subnetting 영역을 설정합니다.
 
-이 subnetting은 기존 사용 중인 아이피와 충돌이 발생할수 있어 별도의 subnetting으로 container의 아이피를 할당하기 위함입니다.
- 
+container에 할당한 아이피 대역을 지정하는 것은 매우 중요한 과정입니다.
+
+사용할 아이피 대역을 정의하지 않으면 
+
+container에 할당되는  아이피가 기존 사용 중인 아이피와 충돌이 발생할수 있어 별도의 subnetting으로 기존 시스템과의 충돌을 피해야 합니다.
+
 ```
 root@ubuntu:~# echo 'DOCKER_OPTS="-b=br0 --fixed-cidr=10.0.1.32/27"' >> /etc/default/docker
 ```
 
-
+<br>
+<br>
 # 6. Auto add bridge
 
 신규 브리지(br0) 생성과 생성된 브리지에 이더뎃(eth0) 할당을 자동으로 하여
@@ -133,7 +146,8 @@ exit 0
 
 ```
 
-
+<br>
+<br>
 # 7. TIP.
 container별 할당 아이피 스크립트
 
@@ -147,7 +161,8 @@ do
 done
 ```
 
-
+<br>
+<br>
 # 8. Test
 
 ## 8.1 test img pull
