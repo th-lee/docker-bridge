@@ -42,7 +42,7 @@ Container : 10.0.1.32/27 (10.0.1.33~10.0.1.62)
 * Host IP : 10.0.1.35/32
 * Docker-Engine Ver : 1.9.0
 * Container IP Range (Max #30) : 10.0.1.32/27 (10.0.1.32~10.0.1.63)
-* 주 : container의 gateway는 Host(10.0.1.35/32)가 됩니다.
+* 주 : container의 gateway는 Host(10.0.1.58)가 됩니다.
 * 
 
 
@@ -129,10 +129,12 @@ root@ubuntu:~# echo 'DOCKER_OPTS="-b=br0 --fixed-cidr=10.0.1.32/27"' >> /etc/def
 
 <br>
 <br>
-# 6. Auto add bridge
+# 6. autostart add bridge
 
 신규 브리지(br0) 생성과 생성된 브리지에 이더뎃(eth0) 할당을 자동으로 하여
 시스템 리부팅 시에도 Docker 환경의 자동 설정을 합니다.
+
+주:부팅시 run-level에서 가상 브리지 설정으로 부팅시간이 다소 소요됩니다.
  
 ```
 root@ubuntu:~# vi /etc/rc.local
