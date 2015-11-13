@@ -170,21 +170,47 @@ root@ubuntu:~# docker pull training/webapp
 ```
 
 ## 8.2 create container
+app.py
 ```
-root@ubuntu:~# for i in `seq 1 5`; do docker run -d --name webserver-$i -P training/webapp python app.py ; done
-cb387bce511a015f906077fa6974a952a6f3fac49cfa9d10ba5a27350e22ad41
-f22f6f0eff6aa77d9aa9f356e6a0dc27e60c1206a35ba2127b4dca8060be8678
-f92f5cdab00d9e4f0c42292406d8f22759f12e80c5e8673fb0aaa70f0680bc23
-075a81125cee2c22d09e076472f9280d69297f6ab7c95f24cd6a4ff69dcab83e
-d63d40e29cc4a13f75fe3d1d45ef002215bc0e4b043e5b4287cf123dfb6cc647
+root@ubuntu:~# for i in `seq 1 5`; do docker run -d --name webserver-$i training/webapp python app.py ; done
+5b4d77ba847a9406a32cb7d7d20e68092a61dd9c1f10920b440b911f68b45810
+c4b4d79779f5836c281681befa2dac53f725bd4657049b0b6c2da40c6903751c
+0001460fad7a821ce22ad72ea334a842c2f957e941bd4f6790ac6aef8dedc674
+63e64ab1367b952283f2e68f2f518b3beac413ced7bf3842f21f0e88032a6f15
+cdbfa9dc010022542897a91bdbfab3773264f3254bee503473c77bc45d94032b
 ```
 
-## 8.3 verify container IP
+
+## 8.3 verify container status
+```
+root@ubuntu:~# docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
+cdbfa9dc0100        training/webapp     "python app.py"     About a minute ago   Up About a minute   5000/tcp            webserver-5
+63e64ab1367b        training/webapp     "python app.py"     About a minute ago   Up About a minute   5000/tcp            webserver-4
+0001460fad7a        training/webapp     "python app.py"     About a minute ago   Up About a minute   5000/tcp            webserver-3
+c4b4d79779f5        training/webapp     "python app.py"     About a minute ago   Up About a minute   5000/tcp            webserver-2
+5b4d77ba847a        training/webapp     "python app.py"     About a minute ago   Up About a minute   5000/tcp            webserver-1
+```
+
+
+## 8.4 verify container IP
 ```
 root@ubuntu:~# ./docker-ip 
-d63d40e29cc4 10.0.1.37
-075a81125cee 10.0.1.36
-f92f5cdab00d 10.0.1.35
-f22f6f0eff6a 10.0.1.34
-cb387bce511a 10.0.1.33
+cdbfa9dc0100 10.0.1.37
+63e64ab1367b 10.0.1.36
+0001460fad7a 10.0.1.35
+c4b4d79779f5 10.0.1.34
+5b4d77ba847a 10.0.1.33
+```
+
+
+## 8.5 verify container service
+```
+root@ubuntu:~# curl -I http://10.0.1.37:5000
+HTTP/1.0 200 OK
+Content-Type: text/html; charset=utf-8
+Content-Length: 12
+Server: Werkzeug/0.10.4 Python/2.7.6
+Date: Tue, 10 Nov 2015 17:56:06 GMT
+
 ```
