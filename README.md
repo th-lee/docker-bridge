@@ -206,7 +206,7 @@ c4b4d79779f5 10.0.1.34
 ```
 
 
-## 8.5 verify container service
+## 8.5 verify container's service
 ```
 root@ubuntu:~# curl -I http://10.0.1.37:5000
 HTTP/1.0 200 OK
