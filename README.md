@@ -216,3 +216,27 @@ Server: Werkzeug/0.10.4 Python/2.7.6
 Date: Tue, 10 Nov 2015 17:56:06 GMT
 
 ```
+
+
+
+# 9. update (ubuntu15.10 + docker1.9.1)
+
+15.x 버전부터는 systemd에서 /etc/default/docker 파일을 무시하고 실행이 됩니다.
+
+``
+vi /lib/systemd/system/docker.service
+``
+
+``
+...
+[Service]
+ExecStart=/usr/bin/docker -d -H fd:// $DOCKER_OPTS
+...
+EnvironmentFile=-/etc/default/docker
+...
+``
+
+``
+systemctl daemon-reload
+systemctl restart docker
+``
