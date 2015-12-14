@@ -241,3 +241,37 @@ EnvironmentFile=-/etc/default/docker
 systemctl daemon-reload
 systemctl restart docker
 ```
+
+
+## 네트워크 상태
+
+```
+# docker network inspect bridge
+[
+    {
+        "Name": "bridge",
+        "Id": "ad2b7230adb9479991d6a72ec184a17f7a70052ea5d254913376d6f570ab6e74",
+        "Scope": "local",
+        "Driver": "bridge",
+        "IPAM": {
+            "Driver": "default",
+            "Config": [
+                {
+                    "Subnet": "10.0.1.1/24",
+                    "IPRange": "10.0.1.32/27",
+                    "Gateway": "10.0.1.58"
+                }
+            ]
+        },
+        "Containers": {},
+        "Options": {
+            "com.docker.network.bridge.default_bridge": "true",
+            "com.docker.network.bridge.enable_icc": "true",
+            "com.docker.network.bridge.enable_ip_masquerade": "true",
+            "com.docker.network.bridge.host_binding_ipv4": "0.0.0.0",
+            "com.docker.network.bridge.name": "br0",
+            "com.docker.network.driver.mtu": "1500"
+        }
+    }
+]
+```
